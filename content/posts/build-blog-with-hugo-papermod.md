@@ -52,11 +52,12 @@ git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git t
 加入幾個對中文站需要的設定：
 
 ```yaml
-languageCode: "zh-tw"
+locale: "zh-tw"
 defaultContentLanguage: "zh-tw"
 hasCJKLanguage: true
 ```
 
+- `locale: zh-tw` 這個 key 要注意。很多教學寫的是 `languageCode`，但它在 Hugo 0.158.0 已經 deprecated，build 時會噴 warning，要改用 `locale`。
 - `defaultContentLanguage: zh-tw` 會讓 PaperMod 去讀 `i18n/zh-tw.yaml`，「上一頁」「目錄」「複製」這些介面字串就自動變繁中。
 - `hasCJKLanguage: true` 很重要。中文詞之間沒有空格，不開這個的話 Hugo 會把一整段中文算成「1 個字」，字數統計和閱讀時間會完全失真，自動摘要也會被切爆。
 
