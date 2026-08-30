@@ -83,16 +83,16 @@ markup:
 
 PaperMod 自己帶了 chroma 的樣式表，用 class-based 高亮才能跟著深淺色模式一起切。如果設成 `noClasses: true`，顏色會被寫死成 inline style，切到暗色模式就會很難看。
 
-### 4. 對齊 Hugo 版本（這裡踩到坑）
+### 4. 對齊 Hugo 版本
 
-官方樣板 workflow 裡寫的是：
+GitHub 官方樣板 workflow 裡寫的是 `0.128.0`，但我本機裝的是 `0.165.0` 版本；本機是哪個版本，就把 `HUGO_VERSION` 設成哪個。
 
 ```yaml
 env:
-  HUGO_VERSION: 0.128.0
+  HUGO_VERSION: 0.165.0
 ```
 
-本機是哪個版本，就把 `HUGO_VERSION` 設成哪個。
+
 
 ### 5. 本機預覽
 
