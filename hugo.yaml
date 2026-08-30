@@ -1,0 +1,100 @@
+baseURL: "https://alanclyeh.github.io/"
+title: "就是筆記"
+theme: "PaperMod"
+
+locale: "zh-tw"
+defaultContentLanguage: "zh-tw"
+# 中文沒有空格分詞，開啟後字數 / 閱讀時間 / 摘要才會算對
+hasCJKLanguage: true
+
+enableRobotsTXT: true
+enableEmoji: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+pagination:
+  pagerSize: 10
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+# 首頁除了 HTML / RSS 外要多產 JSON，PaperMod 的站內搜尋靠它建索引
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+markup:
+  highlight:
+    # PaperMod 自帶 chroma 樣式表，用 class 才能跟著深淺色模式切換
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    tabWidth: 4
+  goldmark:
+    renderer:
+      unsafe: true # 允許文章內嵌 HTML
+
+menu:
+  main:
+    - identifier: posts
+      name: 文章
+      url: /posts/
+      weight: 10
+    - identifier: archives
+      name: 歸檔
+      url: /archives/
+      weight: 20
+    - identifier: tags
+      name: 標籤
+      url: /tags/
+      weight: 30
+    - identifier: search
+      name: 搜尋
+      url: /search/
+      weight: 40
+
+params:
+  env: production # 開啟 Google Analytics / OpenGraph / Twitter Cards
+  description: "軟體開發、生活感想與興趣探索的個人筆記。"
+  keywords: [Blog, 軟體開發, 筆記, 生活]
+  DateFormat: "2006-01-02"
+  defaultTheme: auto
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowWordCount: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowToc: true
+  TocOpen: false
+  comments: false
+  hideMeta: false
+  hideSummary: false
+
+  homeInfoParams:
+    Title: "Hi 👋"
+    Content: >
+      這裡記錄軟體開發路上踩過的坑，也放一些生活感想、興趣摸索與零碎的個人發現。
+
+  socialIcons:
+    - name: rss
+      title: RSS
+      url: "index.xml"
+
+  # 站內搜尋 (Fuse.js) 設定
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 1
+    keys: ["title", "permalink", "summary", "content"]

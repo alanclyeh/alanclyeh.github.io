@@ -1,0 +1,10 @@
+# Hugo build 產物
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# macOS
+.DS_Store
+
+# 本機工具設定
+/.claude/
