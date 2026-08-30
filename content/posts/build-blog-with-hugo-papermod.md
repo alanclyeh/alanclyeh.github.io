@@ -9,15 +9,16 @@ ShowToc: true
 TocOpen: true
 ---
 
-這個站原本只是 GitHub Pages 開好之後留下的樣板：一個 `_config.yml` 寫著 `theme: jekyll-theme-tactile`，加一個只有 `<h1>Hello!</h1>` 的 `index.html`。這次把它整個換成 Hugo + [PaperMod](https://github.com/adityatelange/hugo-PaperMod)，順手記一下流程。
+這個站原本只是 GitHub Pages 開好之後, 只有 `<h1>Hello!</h1>` 的 `index.html`。 這次把它整個換成 Hugo + [PaperMod](https://github.com/adityatelange/hugo-PaperMod) theme，用 Claude Code 當助手，並順手記錄一下流程。
 
 ## 為什麼選 Hugo + PaperMod
 
-- **Hugo** 是單一 binary、build 快，寫文章就是丟 Markdown 進 `content/`，不用管 Ruby 環境。
-- **PaperMod** 版面乾淨、預設就有深淺色切換、目錄、站內搜尋、程式碼複製按鈕，不用自己刻。
-- GitHub Pages 現在可以直接用 **GitHub Actions** 部署，不必再把 build 出來的 HTML commit 進 `gh-pages` 分支。
+- **Hugo** 是單一 binary、build 快，寫文章就是丟 Markdown 進 `content/` 就好，簡單快速符合我自己的喜好。
+- **PaperMod Theme** 版面乾淨，重點在文章。
 
-## 目錄長什麼樣
+併搭配使用 GitHub Action，commit 後自動 build 並發佈。
+
+## 目錄架構
 
 ```text
 .
@@ -34,9 +35,9 @@ TocOpen: true
 
 ## 步驟
 
-### 1. 清掉 Jekyll 殘留
+### 1. 清掉之前 Jekyll 殘留檔案
 
-`_config.yml` 和 `index.html` 對 Hugo 沒有意義，留著只會混淆，直接刪掉。反正 git 歷史還在。
+`_config.yml` 和 `index.html` 對 Hugo 沒有意義，留著只會混淆，直接刪掉。
 
 ### 2. 用 git submodule 裝主題
 
@@ -48,14 +49,15 @@ git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git t
 
 ### 3. 寫 `hugo.yaml`
 
-幾個對中文站特別有感的設定：
+加入幾個對中文站需要的設定：
 
 ```yaml
-languageCode: "zh-tw"
+locale: "zh-tw"
 defaultContentLanguage: "zh-tw"
 hasCJKLanguage: true
 ```
 
+- `locale: zh-tw` 這個 key 要注意。很多教學寫的是 `languageCode`，但它在 Hugo 0.158.0 已經 deprecated，build 時會噴 warning，要改用 `locale`。
 - `defaultContentLanguage: zh-tw` 會讓 PaperMod 去讀 `i18n/zh-tw.yaml`，「上一頁」「目錄」「複製」這些介面字串就自動變繁中。
 - `hasCJKLanguage: true` 很重要。中文詞之間沒有空格，不開這個的話 Hugo 會把一整段中文算成「1 個字」，字數統計和閱讀時間會完全失真，自動摘要也會被切爆。
 
@@ -71,7 +73,7 @@ outputs:
 
 再配上 `content/search.md`（`layout: "search"`）跟 `params.fuseOpts`，搜尋頁就會動了。歸檔頁同理，`content/archives.md` 指定 `layout: "archives"`。
 
-程式碼高亮的部分：
+程式碼高亮設計的部分：
 
 ```yaml
 markup:
@@ -88,15 +90,6 @@ PaperMod 自己帶了 chroma 的樣式表，用 class-based 高亮才能跟著�
 ```yaml
 env:
   HUGO_VERSION: 0.128.0
-```
-
-但現在的 PaperMod 已經改用 Hugo 的新版 layout 目錄結構（`layouts/_partials/`、`layouts/_shortcodes/`），`theme.toml` 裡標的最低版本是 `0.146.0`。用 0.128.0 去 build 會直接壞掉。
-
-所以要把 CI 的版本往上拉，並且**跟本機的版本對齊**，免得本機看起來好好的、推上去卻爆掉：
-
-```bash
-brew install hugo
-hugo version
 ```
 
 本機是哪個版本，就把 `HUGO_VERSION` 設成哪個。
