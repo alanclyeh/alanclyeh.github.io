@@ -1,5 +1,5 @@
 baseURL: "https://alanclyeh.github.io/"
-title: "就是筆記"
+title: "acly.notes"
 theme: "PaperMod"
 
 locale: "zh-tw"
@@ -60,8 +60,8 @@ menu:
 
 params:
   env: production # 開啟 Google Analytics / OpenGraph / Twitter Cards
-  description: "軟體開發、生活感想與興趣探索的個人筆記。"
-  keywords: [Blog, 軟體開發, 筆記, 生活]
+  description: "Trying to build something interesting~"
+  keywords: [Blog, Notes, Software Development, Programming, Life, 軟體開發, 筆記, 生活]
   DateFormat: "2006-01-02"
   defaultTheme: auto
   disableThemeToggle: false
@@ -81,8 +81,7 @@ params:
 
   homeInfoParams:
     Title: "Hi 👋"
-    Content: >
-      這裡記錄軟體開發路上踩過的坑，也放一些生活感想、興趣摸索與零碎的個人發現。
+    Content: "Trying to build something interesting~"
 
   socialIcons:
     - name: rss
