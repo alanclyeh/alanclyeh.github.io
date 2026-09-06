@@ -1,5 +1,5 @@
 ---
-title: "歸檔"
+title: "Archives"
 layout: "archives"
 summary: "archives"
 ShowBreadCrumbs: false

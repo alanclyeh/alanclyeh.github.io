@@ -1,8 +1,8 @@
 ---
-title: "搜尋"
+title: "Search"
 layout: "search"
 summary: "search"
-placeholder: "輸入關鍵字…"
+placeholder: "Type to search…"
 ShowBreadCrumbs: false
 ShowReadingTime: false
 ShowWordCount: false

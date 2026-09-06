@@ -1,0 +1,20 @@
+{{- /* 補上 PaperMod 沒有輸出的 hreflang="x-default"。
+
+     主題的 head.html 已經針對 .AllTranslations 輸出各語系的 alternate（含自我參照），
+     但沒有 x-default。x-default 代表「使用者的語言都不匹配時該去哪一頁」，
+     以英文版當 fallback 對非中文讀者最合理；若這頁沒有英文版，
+     .AllTranslations 只會有自己，x-default 就指回自己（等同中文版）。
+
+     同一組翻譯的每個語系版本都會算出同一個 x-default，Google 才不會判定為衝突。 */ -}}
+{{- $xdefault := .Permalink -}}
+{{- range .AllTranslations -}}
+    {{- if eq .Lang "en" -}}
+        {{- $xdefault = .Permalink -}}
+    {{- end -}}
+{{- end -}}
+<link rel="alternate" hreflang="x-default" href="{{ $xdefault }}">
+
+{{- /* og:locale 主題已經從 languageCode 輸出了，這裡只補其他語系版本的 og:locale:alternate */ -}}
+{{- range .Translations }}
+<meta property="og:locale:alternate" content="{{ replace .Language.Locale "-" "_" }}">
+{{- end }}

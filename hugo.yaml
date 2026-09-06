@@ -1,9 +1,9 @@
 baseURL: "https://alanclyeh.github.io/"
-title: "acly.notes"
 theme: "PaperMod"
 
-locale: "zh-tw"
+# 多語系：中文留在根目錄（維持既有已被收錄的 URL），英文放 /en/
 defaultContentLanguage: "zh-tw"
+defaultContentLanguageInSubdir: false
 # 中文沒有空格分詞，開啟後字數 / 閱讀時間 / 摘要才會算對
 hasCJKLanguage: true
 
@@ -20,7 +20,7 @@ minify:
   disableXML: true
   minifyOutput: true
 
-# 首頁除了 HTML / RSS 外要多產 JSON，PaperMod 的站內搜尋靠它建索引
+# 首頁除了 HTML / RSS 外要多產 JSON，PaperMod 的站內搜尋靠它建索引（每個語言各一份）
 outputs:
   home:
     - HTML
@@ -44,35 +44,82 @@ markup:
     renderer:
       unsafe: true # 允許文章內嵌 HTML
 
-menu:
-  main:
-    - identifier: posts
-      name: 文章
-      url: /posts/
-      weight: 10
-    - identifier: archives
-      name: 歸檔
-      url: /archives/
-      weight: 20
-    - identifier: tags
-      name: 標籤
-      url: /tags/
-      weight: 30
-    - identifier: search
-      name: 搜尋
-      url: /search/
-      weight: 40
+# 語言定義。menu 的 URL 寫相對路徑即可，PaperMod 會用 absLangURL 自動補上語系前綴，
+# 所以英文選單不要自己寫 /en/，否則會變成 /en/en/。
+languages:
+  zh-tw:
+    weight: 1
+    label: "中文"
+    # RSS <language> 與 og:locale 用；hreflang 走的是語言 key（zh-tw）
+    locale: "zh-TW"
+    title: "acly.notes"
+    params:
+      description: "Trying to build something interesting~"
+      keywords: [Blog, Notes, Software Development, Programming, Life, 軟體開發, 筆記, 生活]
+      homeInfoParams:
+        Title: "Hi 👋"
+        Content: "Trying to build something interesting~"
+    menu:
+      main:
+        - identifier: posts
+          name: 文章
+          url: /posts/
+          weight: 10
+        - identifier: archives
+          name: 歸檔
+          url: /archives/
+          weight: 20
+        - identifier: tags
+          name: 標籤
+          url: /tags/
+          weight: 30
+        - identifier: search
+          name: 搜尋
+          url: /search/
+          weight: 40
+
+  en:
+    weight: 2
+    label: "English"
+    locale: "en"
+    title: "acly.notes"
+    params:
+      description: "Trying to build something interesting~"
+      keywords: [Blog, Notes, Software Development, Programming, Life]
+      homeInfoParams:
+        Title: "Hi 👋"
+        Content: "Trying to build something interesting~"
+    menu:
+      main:
+        - identifier: posts
+          name: Posts
+          url: /posts/
+          weight: 10
+        - identifier: archives
+          name: Archives
+          url: /archives/
+          weight: 20
+        - identifier: tags
+          name: Tags
+          url: /tags/
+          weight: 30
+        - identifier: search
+          name: Search
+          url: /search/
+          weight: 40
 
 params:
   env: production # 開啟 Google Analytics / OpenGraph / Twitter Cards
-  description: "Trying to build something interesting~"
-  keywords: [Blog, Notes, Software Development, Programming, Life, 軟體開發, 筆記, 生活]
   DateFormat: "2006-01-02"
 
   # Search Console 擁有權驗證，與 GA 驗證併存，其一失效時另一個仍可維持
   analytics:
     google:
       SiteVerificationTag: "4vRfYcEkM3Qh80Po_33ChqVQSxN5ycwKiVzKq3pcQGQ"
+
+  # 語言切換器：顯示完整語言名稱（中文 / English）而不是 Zh-Tw / En
+  displayFullLangName: true
+  disableLangToggle: false
 
   defaultTheme: auto
   disableThemeToggle: false
@@ -89,10 +136,6 @@ params:
   comments: false
   hideMeta: false
   hideSummary: false
-
-  homeInfoParams:
-    Title: "Hi 👋"
-    Content: "Trying to build something interesting~"
 
   socialIcons:
     - name: github
