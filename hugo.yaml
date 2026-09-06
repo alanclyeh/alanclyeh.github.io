@@ -68,6 +68,12 @@ params:
   description: "Trying to build something interesting~"
   keywords: [Blog, Notes, Software Development, Programming, Life, 軟體開發, 筆記, 生活]
   DateFormat: "2006-01-02"
+
+  # Search Console 擁有權驗證，與 GA 驗證併存，其一失效時另一個仍可維持
+  analytics:
+    google:
+      SiteVerificationTag: "4vRfYcEkM3Qh80Po_33ChqVQSxN5ycwKiVzKq3pcQGQ"
+
   defaultTheme: auto
   disableThemeToggle: false
 
