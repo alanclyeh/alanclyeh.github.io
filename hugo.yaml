@@ -95,6 +95,9 @@ params:
     Content: "Trying to build something interesting~"
 
   socialIcons:
+    - name: github
+      title: GitHub
+      url: "https://github.com/alanclyeh"
     - name: rss
       title: RSS
       url: "index.xml"

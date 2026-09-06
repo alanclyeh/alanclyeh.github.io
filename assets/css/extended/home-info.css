@@ -1,0 +1,8 @@
+/* PaperMod 的 .first-entry 有 min-height: 320px 加垂直置中，
+   首頁自介只有三行，上下就被撐出一大塊空白。
+   用 .first-entry.home-info 提高特異性，順便蓋掉 zmedia.css 的手機版 260px，
+   文章列表頁的 first-entry 不受影響。 */
+.first-entry.home-info {
+    min-height: auto;
+    margin: var(--gap) 0 calc(var(--gap) * 1.5) 0;
+}
