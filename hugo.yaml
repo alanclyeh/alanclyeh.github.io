@@ -27,6 +27,11 @@ outputs:
     - RSS
     - JSON
 
+# Google Analytics 4，Hugo 內建 partial 只在 env: production 時才輸出 gtag
+services:
+  googleAnalytics:
+    ID: "G-YV8DDV3VXZ"
+
 markup:
   highlight:
     # PaperMod 自帶 chroma 樣式表，用 class 才能跟著深淺色模式切換
