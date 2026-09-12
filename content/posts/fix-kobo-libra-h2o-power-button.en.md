@@ -1,7 +1,7 @@
 ---
 title: "How I Fixed the Dead Power Button on My Kobo Libra H2O"
 date: 2026-09-05T00:00:00+08:00
-draft: false
+draft: true
 tags: ["Kobo", "Repair", "E-reader", "Teardown"]
 categories: ["Gadgets"]
 summary: "The power button on my Kobo Libra H2O stopped responding entirely — no click, no travel, nothing. The material inside the button had gone soft, and the fix cost me a scrap of plastic and twenty minutes."
