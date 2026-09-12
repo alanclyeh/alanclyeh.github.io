@@ -1,7 +1,7 @@
 ---
 title: "把 Kobo Libra H2O 壞掉的 Power 鍵救回來"
 date: 2026-09-05T00:00:00+08:00
-draft: false
+draft: true
 tags: ["Kobo", "維修", "電子閱讀器"]
 categories: ["3C"]
 summary: "Kobo Libra H2O 的電源鍵按下去突然沒反應，拆開來才發現是按鍵內部的橡膠圓頂開關老化損壞，清潔加墊高之後救回來的過程。"
