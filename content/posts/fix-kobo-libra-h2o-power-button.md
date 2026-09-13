@@ -5,6 +5,13 @@ draft: false
 tags: ["Kobo", "維修", "電子閱讀器"]
 categories: ["3C"]
 summary: "Kobo Libra H2O 的電源鍵按下去突然沒反應，拆開來才發現是按鍵內部的橡膠圓頂開關老化損壞，清潔加墊高之後救回來的過程。"
+# 跟英文版共用同一張裁好的 1200x600 cover，路徑不加開頭的 /，
+# PaperMod 的 cover.html 才比對得到 assets/ 裡的原圖。詳細說明見 .en.md。
+cover:
+  image: "images/kobo/kobo_libra_h20_cover.jpg"
+  alt: "Kobo Libra H2O 背蓋上的電源鍵"
+  relative: false
+  hiddenInSingle: true
 ShowToc: true
 TocOpen: true
 ---
