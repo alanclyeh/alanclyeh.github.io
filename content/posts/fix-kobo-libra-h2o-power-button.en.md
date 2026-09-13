@@ -6,8 +6,12 @@ tags: ["Kobo", "Repair", "E-reader", "Teardown"]
 categories: ["Gadgets"]
 summary: "The power button on my Kobo Libra H2O stopped responding entirely — no click, no travel, nothing. The material inside the button had gone soft, and the fix cost me a scrap of plastic and twenty minutes."
 description: "My Kobo Libra H2O wouldn't wake from sleep and the power button had no click left. The rubber dome inside had degraded. Here's the fix."
+# cover 是從第一張圖裁成 1200x600 的版本（正方形當縮圖太高，社群卡片也會被亂裁）。
+# 路徑不加開頭的 /，PaperMod 的 cover.html 才比對得到 assets/ 裡的原圖，
+# 列表頁縮圖就會走 Hugo 的 resize（否則會直接塞原檔）。
+# og:image 走的是 absURL，指向 static/ 那份同名 JPEG，所以兩邊都要有。
 cover:
-  image: "/images/kobo/kobo_libra_h20_1.jpg"
+  image: "images/kobo/kobo_libra_h20_cover.jpg"
   alt: "The power button on the back of a Kobo Libra H2O"
   relative: false
   hiddenInSingle: true

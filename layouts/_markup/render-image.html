@@ -1,0 +1,51 @@
+{{- /* 蓋掉 PaperMod 的 render-image.html。主題版本只補了 loading="lazy"，
+     沒有 width / height（會造成 CLS），也不轉檔（JPEG 比 WebP 大上一倍）。
+
+     這裡的處理：
+     - 圖片放在 assets/ 才有辦法被 Hugo 處理，static/ 的檔案不是 resource。
+     - 轉成 WebP，並且多產一份 720w 給手機用（版面 --main-width 是 720px）。
+     - 只縮小、不放大：原圖比目標窄時就用原寸，避免糊掉。
+     - 第一張圖（Ordinal 0）通常就是 LCP 元素，對它 lazy-load 反而會拖慢 LCP，
+       所以改成 eager + fetchpriority=high，其餘維持 lazy。
+     - 抓不到 resource（外連圖、SVG 等）時退回單純輸出 <img>，行為同主題原版。 */ -}}
+
+{{- $u := urls.Parse .Destination -}}
+{{- $src := $u.String -}}
+{{- $img := false -}}
+{{- if not $u.IsAbs -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path -}}
+  {{- $img = or (.PageInner.Resources.Get $path) (resources.Get $path) -}}
+{{- end -}}
+
+{{- $processable := false -}}
+{{- if $img -}}
+  {{- $processable = in (slice "image/jpeg" "image/png" "image/webp" "image/tiff") $img.MediaType.Type -}}
+{{- end -}}
+
+{{- if $processable -}}
+  {{- $maxWidth := 1200 -}}
+  {{- $targetWidth := cond (gt $img.Width $maxWidth) $maxWidth $img.Width -}}
+  {{- $full := $img.Resize (printf "%dx webp q75" $targetWidth) -}}
+  {{- $srcset := slice (printf "%s %dw" $full.RelPermalink $full.Width) -}}
+  {{- if gt $targetWidth 720 -}}
+    {{- $small := $img.Resize "720x webp q75" -}}
+    {{- $srcset = $srcset | append (printf "%s %dw" $small.RelPermalink $small.Width) -}}
+  {{- end -}}
+  <img src="{{ $full.RelPermalink }}"
+    {{- if gt (len $srcset) 1 }} srcset="{{ delimit $srcset ", " }}" sizes="(max-width: 768px) 100vw, 720px"{{ end }}
+    width="{{ $full.Width }}" height="{{ $full.Height }}"
+    alt="{{ .Text }}"{{ with .Title }} title="{{ . | transform.HTMLEscape }}"{{ end }}
+    {{- if eq .Ordinal 0 }} loading="eager" fetchpriority="high"{{ else }} loading="lazy"{{ end }} decoding="async">
+{{- else -}}
+  {{- with $img -}}
+    {{- $src = .RelPermalink -}}
+    {{- with $u.RawQuery -}}{{- $src = printf "%s?%s" $src . -}}{{- end -}}
+    {{- with $u.Fragment -}}{{- $src = printf "%s#%s" $src . -}}{{- end -}}
+  {{- end -}}
+  {{- $attributes := merge .Attributes (dict "alt" .Text "src" $src "title" (.Title | transform.HTMLEscape) "loading" "lazy") -}}
+  <img
+    {{- range $k, $v := $attributes -}}
+      {{- if $v -}}{{- printf " %s=%q" $k $v | safeHTMLAttr -}}{{- end -}}
+    {{- end -}}>
+{{- end -}}
+{{- /**/ -}}

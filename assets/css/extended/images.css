@@ -1,0 +1,11 @@
+/* 主題的 core/reset.css 只給了 img { max-width: 100% }，沒有配套的 height: auto。
+
+   內文圖片從 render-image.html 開始會帶 width / height 屬性（給瀏覽器算長寬比、
+   避免 CLS），但少了 height: auto 的話，寬度被 max-width 縮到版面寬、高度卻還鎖在
+   屬性值上，圖就會被縱向拉長。
+
+   只鎖定內文與封面圖，不動全域 img，以免影響 social icon 這類本來就指定高度的元素。 */
+.post-content img,
+.entry-cover img {
+    height: auto;
+}
