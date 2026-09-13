@@ -52,10 +52,11 @@ jobs:
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
+        # 不要用 steps.pages.outputs.base_url 覆蓋 baseURL：GitHub Pages 這個 output
+        # 回傳的是 http://，會讓 canonical / og:image / 封面圖全部變成 http 絕對網址，
+        # 在 https 的頁面上被瀏覽器當 mixed content 擋掉。hugo.yaml 裡的 baseURL 才是對的。
         run: |
-          hugo \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+          hugo --minify
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
