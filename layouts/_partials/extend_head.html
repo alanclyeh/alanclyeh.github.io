@@ -18,3 +18,23 @@
 {{- range .Translations }}
 <meta property="og:locale:alternate" content="{{ replace .Language.Locale "-" "_" }}">
 {{- end }}
+
+{{- /* Google AdSense。client 留空就整段不輸出，方便還沒申請過就先 merge。
+
+     只在 hugo.IsProduction 時載入：本機 hugo server 的環境是 development，
+     不會對 AdSense 送出請求，免得自己開發時累積成無效流量。
+     CI（.github/workflows）有帶 HUGO_ENVIRONMENT: production，線上站一定會輸出。
+
+     google-adsense-account 這個 meta 是 AdSense 的網站擁有權驗證方式之一，
+     跟下面的 script 併存，其一失效時另一個仍可維持（同 SiteVerificationTag 的作法）。
+
+     script 本身就是 Auto ads：版位交給 AdSense 後台自動決定，不必改版型。
+     日後若要手動指定版位，再在對應的 layout 插 <ins class="adsbygoogle">。 */ -}}
+{{- with site.Params.adsense }}
+    {{- with .client }}
+        {{- if hugo.IsProduction }}
+<meta name="google-adsense-account" content="{{ . }}">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
+        {{- end }}
+    {{- end }}
+{{- end }}

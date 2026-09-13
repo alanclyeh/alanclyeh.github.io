@@ -117,6 +117,12 @@ params:
     google:
       SiteVerificationTag: "4vRfYcEkM3Qh80Po_33ChqVQSxN5ycwKiVzKq3pcQGQ"
 
+  # Google AdSense。填入發布商 ID（ca-pub-…）才會輸出，且只在 production 建置時載入。
+  # 實際的 script / meta 在 layouts/_partials/extend_head.html。
+  # 改動這裡的 ID 時，static/ads.txt 裡的 pub-… 也要一起改。
+  adsense:
+    client: "ca-pub-4427666429758145"
+
   # 語言切換器：顯示完整語言名稱（中文 / English）而不是 Zh-Tw / En
   displayFullLangName: true
   disableLangToggle: false
