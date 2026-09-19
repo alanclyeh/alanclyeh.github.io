@@ -7,7 +7,8 @@
      - 只縮小、不放大：原圖比目標窄時就用原寸，避免糊掉。
      - 第一張圖（Ordinal 0）通常就是 LCP 元素，對它 lazy-load 反而會拖慢 LCP，
        所以改成 eager + fetchpriority=high，其餘維持 lazy。
-     - 抓不到 resource（外連圖、SVG 等）時退回單純輸出 <img>，行為同主題原版。 */ -}}
+     - 抓不到 resource（外連圖）時退回單純輸出 <img>，行為同主題原版；
+       SVG 走這條路但會補上寬高。 */ -}}
 
 {{- $u := urls.Parse .Destination -}}
 {{- $src := $u.String -}}
@@ -37,12 +38,21 @@
     alt="{{ .Text }}"{{ with .Title }} title="{{ . | transform.HTMLEscape }}"{{ end }}
     {{- if eq .Ordinal 0 }} loading="eager" fetchpriority="high"{{ else }} loading="lazy"{{ end }} decoding="async">
 {{- else -}}
+  {{- $dims := dict -}}
   {{- with $img -}}
     {{- $src = .RelPermalink -}}
     {{- with $u.RawQuery -}}{{- $src = printf "%s?%s" $src . -}}{{- end -}}
     {{- with $u.Fragment -}}{{- $src = printf "%s#%s" $src . -}}{{- end -}}
+    {{- /* SVG 不是 Hugo 的 image resource，沒有 .Width / .Height，但寬高就寫在根元素上。
+           抓出來補進 <img>，瀏覽器才有長寬比可算，不會等圖載完才撐開版面。 */ -}}
+    {{- if eq .MediaType.Type "image/svg+xml" -}}
+      {{- with findRESubmatch `<svg[^>]+width="([0-9.]+)"[^>]+height="([0-9.]+)"` .Content 1 -}}
+        {{- $m := index . 0 -}}
+        {{- $dims = dict "width" (index $m 1) "height" (index $m 2) -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
-  {{- $attributes := merge .Attributes (dict "alt" .Text "src" $src "title" (.Title | transform.HTMLEscape) "loading" "lazy") -}}
+  {{- $attributes := merge (merge .Attributes $dims) (dict "alt" .Text "src" $src "title" (.Title | transform.HTMLEscape) "loading" "lazy" "decoding" "async") -}}
   <img
     {{- range $k, $v := $attributes -}}
       {{- if $v -}}{{- printf " %s=%q" $k $v | safeHTMLAttr -}}{{- end -}}

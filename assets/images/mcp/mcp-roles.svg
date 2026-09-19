@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 512" width="720" height="512" role="img" aria-label="AI Agent 內部組成：Host 裡有 agent 迴圈、工具對照表與多個 Client，模型是 Host 呼叫的外部 API，每個 Client 一對一連到一台 MCP Server">
+  <style>
+    svg {
+      --fg: #1f2328;
+      --muted: #57606a;
+      --line: #8c959f;
+      --box: #ffffff;
+      --box-stroke: #afb8c1;
+      --host: #f6f8fa;
+      --host-stroke: #8c959f;
+      --pill: #24292f;
+      --pill-fg: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --fg: #e6edf3;
+        --muted: #9198a1;
+        --line: #6e7681;
+        --box: #1c2128;
+        --box-stroke: #454c56;
+        --host: #161b22;
+        --host-stroke: #454c56;
+        --pill: #e6edf3;
+        --pill-fg: #161b22;
+      }
+    }
+    text {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC",
+                   "Microsoft JhengHei", "Segoe UI", sans-serif;
+      fill: var(--fg);
+    }
+    .t    { font-size: 13px;   font-weight: 600; }
+    .t-lg { font-size: 15px;   font-weight: 700; }
+    .sub  { font-size: 10.5px; fill: var(--muted); }
+    .tiny { font-size: 10px;   fill: var(--muted); }
+    .step { font-size: 11px; }
+    .num  { font-size: 11px; font-weight: 700; }
+    .inv  { fill: var(--pill-fg); }
+    .box  { fill: var(--box);  stroke: var(--box-stroke); stroke-width: 1.2; }
+    .host { fill: var(--host); stroke: var(--host-stroke); stroke-width: 1.4; }
+    .ext  { fill: var(--box);  stroke: var(--box-stroke); stroke-width: 1.2;
+            stroke-dasharray: 6 4; }
+    .edge { stroke: var(--line); stroke-width: 1.4; fill: none; }
+  </style>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/>
+    </marker>
+  </defs>
+
+  <!-- 使用者 -->
+  <rect x="124" y="8" width="100" height="34" rx="17" fill="var(--pill)"/>
+  <text x="174" y="30" class="t inv" text-anchor="middle">使用者</text>
+  <path d="M 174 42 L 174 62" class="edge" marker-end="url(#arrow)"/>
+
+  <!-- Host -->
+  <rect x="24" y="64" width="300" height="308" rx="14" class="host"/>
+  <text x="44" y="92" class="t-lg">AI Agent（MCP Host）</text>
+  <text x="44" y="110" class="sub">Cursor / Claude Desktop / 自己寫的 agent</text>
+
+  <rect x="44" y="124" width="260" height="64" rx="10" class="box"/>
+  <text x="174" y="150" class="t" text-anchor="middle">Agent 迴圈</text>
+  <text x="174" y="170" class="sub" text-anchor="middle">組訊息、送模型、把結果接回對話</text>
+
+  <rect x="44" y="206" width="260" height="64" rx="10" class="box"/>
+  <text x="174" y="232" class="t" text-anchor="middle">工具對照表</text>
+  <text x="174" y="252" class="sub" text-anchor="middle">工具名稱 → 哪一個 Client</text>
+
+  <rect x="44" y="288" width="124" height="62" rx="10" class="box"/>
+  <text x="106" y="314" class="t" text-anchor="middle">Client A</text>
+  <text x="106" y="333" class="sub" text-anchor="middle">一條連線</text>
+
+  <rect x="180" y="288" width="124" height="62" rx="10" class="box"/>
+  <text x="242" y="314" class="t" text-anchor="middle">Client B</text>
+  <text x="242" y="333" class="sub" text-anchor="middle">一條連線</text>
+
+  <path d="M 174 188 L 174 202" class="edge" marker-end="url(#arrow)"/>
+  <path d="M 106 270 L 106 284" class="edge" marker-end="url(#arrow)"/>
+  <path d="M 242 270 L 242 284" class="edge" marker-end="url(#arrow)"/>
+
+  <!-- 模型（外部） -->
+  <rect x="440" y="118" width="200" height="86" rx="12" class="ext"/>
+  <text x="540" y="148" class="t" text-anchor="middle">模型（LLM API）</text>
+  <text x="540" y="168" class="sub" text-anchor="middle">Claude / GPT / 本機模型</text>
+  <text x="540" y="186" class="sub" text-anchor="middle">被 Host 呼叫，不在 Host 裡</text>
+
+  <path d="M 308 143 L 436 143" class="edge" marker-end="url(#arrow)"/>
+  <text x="372" y="135" class="tiny" text-anchor="middle">對話 + 工具清單</text>
+  <path d="M 436 179 L 308 179" class="edge" marker-end="url(#arrow)"/>
+  <text x="372" y="196" class="tiny" text-anchor="middle">tool_use：工具名 + 參數</text>
+
+  <!-- 兩層判斷 -->
+  <text x="440" y="248" class="t">兩層判斷</text>
+  <text x="440" y="274" class="num">①</text>
+  <text x="460" y="274" class="step">模型讀 description，挑一個工具名字</text>
+  <text x="440" y="300" class="num">②</text>
+  <text x="460" y="300" class="step">Host 拿名字查對照表，選出那條 Client</text>
+  <text x="440" y="326" class="num">③</text>
+  <text x="460" y="326" class="step">Client 對 Server 發 tools/call</text>
+  <text x="460" y="350" class="tiny">模型不知道有幾台 Server，也不需要知道</text>
+
+  <!-- Servers -->
+  <path d="M 106 350 L 106 406" class="edge" marker-end="url(#arrow)"/>
+  <path d="M 242 350 L 242 406" class="edge" marker-end="url(#arrow)"/>
+  <text x="112" y="386" class="tiny">stdio（本機）</text>
+  <text x="248" y="386" class="tiny">HTTP（遠端）</text>
+
+  <rect x="24" y="410" width="144" height="62" rx="10" class="box"/>
+  <text x="96" y="436" class="t" text-anchor="middle">MCP Server A</text>
+  <text x="96" y="455" class="sub" text-anchor="middle">（檔案系統）</text>
+
+  <rect x="180" y="410" width="144" height="62" rx="10" class="box"/>
+  <text x="252" y="436" class="t" text-anchor="middle">MCP Server B</text>
+  <text x="252" y="455" class="sub" text-anchor="middle">（行事曆）</text>
+
+  <text x="24" y="500" class="sub">Server 不跟模型直接講話，模型也碰不到 Server —— 中間一定經過 Host。</text>
+</svg>

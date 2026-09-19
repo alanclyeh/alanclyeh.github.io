@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" role="img" aria-label="MCP Server 內部結構：透過 stdio 或 Streamable HTTP 傳輸，以 JSON-RPC 對外提供 tools、resources、prompts">
+  <style>
+    svg {
+      --fg: #1f2328;
+      --muted: #57606a;
+      --line: #8c959f;
+      --box: #ffffff;
+      --box-stroke: #afb8c1;
+      --host: #f6f8fa;
+      --host-stroke: #8c959f;
+      --pill: #24292f;
+      --pill-fg: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --fg: #e6edf3;
+        --muted: #9198a1;
+        --line: #6e7681;
+        --box: #1c2128;
+        --box-stroke: #454c56;
+        --host: #161b22;
+        --host-stroke: #454c56;
+        --pill: #e6edf3;
+        --pill-fg: #161b22;
+      }
+    }
+    text {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC",
+                   "Microsoft JhengHei", "Segoe UI", sans-serif;
+      fill: var(--fg);
+    }
+    .t    { font-size: 13.5px; font-weight: 600; }
+    .t-lg { font-size: 15px;   font-weight: 700; }
+    .key  { font-size: 13px;   font-weight: 700;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .sub  { font-size: 11px;   fill: var(--muted); }
+    .mono { font-size: 10px;   fill: var(--muted);
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .inv  { fill: var(--pill-fg); }
+    .box  { fill: var(--box);  stroke: var(--box-stroke); stroke-width: 1.2; }
+    .host { fill: var(--host); stroke: var(--host-stroke); stroke-width: 1.4; }
+    .edge { stroke: var(--line); stroke-width: 1.4; fill: none; }
+    .sep  { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 4; opacity: .6; }
+  </style>
+
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/>
+    </marker>
+  </defs>
+
+  <rect x="256" y="8" width="150" height="34" rx="8" fill="var(--pill)"/>
+  <text x="331" y="30" class="t inv" text-anchor="middle">Client（在 Host 裡）</text>
+
+  <path d="M 331 42 L 331 86" class="edge" marker-end="url(#arrow2)"/>
+  <text x="348" y="58" class="sub">Transport：stdio（本機 process）／ Streamable HTTP（遠端）</text>
+  <text x="348" y="76" class="mono">JSON-RPC：initialize、tools/list、tools/call …</text>
+
+  <rect x="90" y="88" width="540" height="300" rx="14" class="host"/>
+  <text x="112" y="118" class="t-lg">MCP Server</text>
+  <text x="112" y="138" class="sub">JSON-RPC 資料層：對外宣告自己有什麼，並接收呼叫</text>
+
+  <rect x="112" y="156" width="496" height="54" rx="10" class="box"/>
+  <text x="132" y="180" class="key">tools</text>
+  <text x="240" y="178" class="t">可執行的函式，模型會自己挑</text>
+  <text x="240" y="196" class="mono">name + description + inputSchema</text>
+
+  <rect x="112" y="220" width="496" height="46" rx="10" class="box"/>
+  <text x="132" y="249" class="key">resources</text>
+  <text x="240" y="248" class="t">給模型當上下文的資料<tspan class="sub" font-weight="400">　多半由使用者／Host 挑</tspan></text>
+
+  <rect x="112" y="276" width="496" height="46" rx="10" class="box"/>
+  <text x="132" y="305" class="key">prompts</text>
+  <text x="240" y="304" class="t">可重用的提示模板<tspan class="sub" font-weight="400">　通常掛在 UI 上讓人點</tspan></text>
+
+  <path d="M 112 340 L 608 340" class="sep"/>
+  <text x="112" y="366" class="sub">底下真正做事的部分：讀檔、打 API、查 DB……（這段跟 MCP 協定無關）</text>
+
+  <text x="360" y="410" class="sub" text-anchor="middle">Client 問「你有什麼」，Server 回的是一張工具清單，不是「我是行事曆 Server」</text>
+</svg>
