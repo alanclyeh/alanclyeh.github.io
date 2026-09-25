@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" width="720" height="390" role="img" aria-label="一次對話的來回：你的 Python 程式 POST 一包含 messages 的 JSON 到 Ollama，Ollama 回一包含 message 與 token 數的 JSON，請求結束後兩邊都不保留對話">
+  <style>
+    svg {
+      --fg: #1f2328;
+      --muted: #57606a;
+      --line: #8c959f;
+      --box: #ffffff;
+      --box-stroke: #afb8c1;
+      --host: #f6f8fa;
+      --host-stroke: #8c959f;
+      --pill: #24292f;
+      --pill-fg: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      svg {
+        --fg: #e6edf3;
+        --muted: #9198a1;
+        --line: #6e7681;
+        --box: #1c2128;
+        --box-stroke: #454c56;
+        --host: #161b22;
+        --host-stroke: #454c56;
+        --pill: #e6edf3;
+        --pill-fg: #161b22;
+      }
+    }
+    text {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC",
+                   "Microsoft JhengHei", "Segoe UI", sans-serif;
+      fill: var(--fg);
+    }
+    .t    { font-size: 13.5px; font-weight: 600; }
+    .t-lg { font-size: 15px;   font-weight: 700; }
+    .sub  { font-size: 11px;   fill: var(--muted); }
+    .mono { font-size: 11px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .mono-m { font-size: 10.5px; fill: var(--muted);
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .inv  { fill: var(--pill-fg); }
+    .box  { fill: var(--box);  stroke: var(--box-stroke); stroke-width: 1.2; }
+    .host { fill: var(--host); stroke: var(--host-stroke); stroke-width: 1.4; }
+    .edge { stroke: var(--line); stroke-width: 1.4; fill: none; }
+    .sep  { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 4; opacity: .6; }
+  </style>
+
+  <defs>
+    <marker id="arrowR" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/>
+    </marker>
+  </defs>
+
+  <!-- 兩端 -->
+  <rect x="24" y="24" width="150" height="40" rx="8" fill="var(--pill)"/>
+  <text x="99" y="49" class="t inv" text-anchor="middle">agent.py</text>
+
+  <rect x="546" y="24" width="150" height="40" rx="8" fill="var(--pill)"/>
+  <text x="621" y="49" class="t inv" text-anchor="middle">Ollama</text>
+  <text x="621" y="80" class="mono-m" text-anchor="middle">localhost:11434</text>
+
+  <!-- 送出 -->
+  <path d="M 178 100 L 542 100" class="edge" marker-end="url(#arrowR)"/>
+  <text x="182" y="94" class="mono">POST /api/chat</text>
+
+  <rect x="178" y="112" width="364" height="86" rx="10" class="box"/>
+  <text x="196" y="133" class="mono">{ "model": "…",</text>
+  <text x="196" y="153" class="mono">  "messages": [</text>
+  <text x="196" y="173" class="mono">    { "role": "user", "content": "…" } ] }</text>
+  <text x="196" y="191" class="sub">整包 JSON 就是你對模型說的全部</text>
+
+  <!-- 收回 -->
+  <path d="M 542 232 L 178 232" class="edge" marker-end="url(#arrowR)"/>
+  <text x="430" y="226" class="mono">200 OK</text>
+
+  <rect x="178" y="244" width="364" height="86" rx="10" class="box"/>
+  <text x="196" y="265" class="mono">{ "message": {</text>
+  <text x="196" y="285" class="mono">    "role": "assistant", "content": "…" },</text>
+  <text x="196" y="305" class="mono">  "eval_count": 491, "done_reason": "stop" }</text>
+  <text x="196" y="323" class="sub">答案、用掉幾個 token、為什麼停下來</text>
+
+  <path d="M 24 352 L 696 352" class="sep"/>
+  <text x="360" y="378" class="sub" text-anchor="middle">請求結束，兩邊都不留下任何東西 —— 下一次問話又是全新的一包 JSON</text>
+</svg>
