@@ -292,4 +292,4 @@ $ python3 agent.py
 
 完整程式碼在 [ai_agent_from_scratch](https://github.com/alanclyeh/ai_agent_from_scratch) 的 `01-minimal-agent/`。
 
-下一篇：它為什麼不記得我剛剛說過的話？（即將推出）
+下一篇：[它為什麼不記得我剛剛說過的話？](../why-llm-doesnt-remember/)
